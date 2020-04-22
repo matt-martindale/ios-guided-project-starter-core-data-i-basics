@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pHy-VJ-Fxf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,7 +22,37 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cGY-yp-npj" id="DD5-yA-cuU">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jtO-jm-BrC">
+                                            <rect key="frame" x="20" y="11" width="20" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="y1R-M2-gZ5"/>
+                                            </constraints>
+                                            <color key="tintColor" red="0.95686274510000002" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <state key="normal" title="Button" image="circle" catalog="system"/>
+                                            <connections>
+                                                <action selector="toggleComplete:" destination="cGY-yp-npj" eventType="touchUpInside" id="RMC-aA-q0g"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1N-gI-cx7">
+                                            <rect key="frame" x="48" y="11.5" width="326" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="jtO-jm-BrC" firstAttribute="centerY" secondItem="DD5-yA-cuU" secondAttribute="centerY" id="AaS-BA-yoM"/>
+                                        <constraint firstItem="jtO-jm-BrC" firstAttribute="leading" secondItem="DD5-yA-cuU" secondAttribute="leading" constant="20" id="Be5-tg-Npl"/>
+                                        <constraint firstItem="L1N-gI-cx7" firstAttribute="leading" secondItem="jtO-jm-BrC" secondAttribute="trailing" constant="8" id="Lpw-g1-9PR"/>
+                                        <constraint firstItem="L1N-gI-cx7" firstAttribute="centerY" secondItem="DD5-yA-cuU" secondAttribute="centerY" id="Wn3-74-f5S"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="L1N-gI-cx7" secondAttribute="trailing" constant="20" id="XRg-Ff-s7Z"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="completedButton" destination="jtO-jm-BrC" id="QCW-ss-am9"/>
+                                    <outlet property="taskNameLabel" destination="L1N-gI-cx7" id="LSI-Is-cji"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -40,7 +70,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EmJ-rz-z1k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-964" y="767"/>
+            <point key="canvasLocation" x="-965.21739130434787" y="766.74107142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8tb-st-jzN">
@@ -90,6 +120,9 @@
                                                     <constraint firstAttribute="width" constant="30" id="wJg-ov-Msc"/>
                                                 </constraints>
                                                 <state key="normal" image="circle" catalog="system"/>
+                                                <connections>
+                                                    <action selector="toggleComplete:" destination="BYZ-38-t0r" eventType="touchUpInside" id="89y-OS-O4r"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -131,9 +164,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Task" id="qv1-Vy-Kdk">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="aUq-ju-lPp"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="G51-De-DQT"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="aUq-ju-lPp">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="J45-BL-kDp"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="G51-De-DQT">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="Hns-pu-ype"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="nameTextField" destination="kNB-OM-6TW" id="W2a-ux-Rwc"/>
+                        <outlet property="notesTextView" destination="R04-F0-saK" id="8Ty-sF-eMb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

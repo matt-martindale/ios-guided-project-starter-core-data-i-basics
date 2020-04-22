@@ -7,14 +7,33 @@
 //
 
 import UIKit
+import CoreData
 
 class TasksTableViewController: UITableViewController {
 
     // MARK: - Properties
     
+    // NOTE! This is not a good, efficient way to do this, as the fetch request
+    // will be executed every time the tasks property is accessed. We will
+    // learn a better way to do this later.
     
-    // MARK: - IBOutlets
-    
+    // Read part of CRUD
+    var tasks: [Task] {
+        
+        // Fetch Request to fetch Tasks specifically
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        
+        // Context you want to fetch the model objects into
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let fetchedTasks = try context.fetch(fetchRequest)
+            return fetchedTasks
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return []
+        }
+    }
     
     // MARK: - View Lifecycle
 
@@ -22,28 +41,35 @@ class TasksTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return tasks.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TaskCell", for: indexPath)
+        
+        
         return cell
     }
 
-    /*
-    // Override to support editing the table view.
+        // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            
+            let task = tasks[indexPath.row]
+            let context = CoreDataStack.shared.mainContext
+            
+            context.delete(task)
+            
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving context after deleting task: \(error)")
+                context.reset()
+            }
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
 
     // MARK: - Navigation
 
