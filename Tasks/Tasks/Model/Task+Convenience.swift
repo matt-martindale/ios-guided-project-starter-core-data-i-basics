@@ -9,12 +9,20 @@
 import Foundation
 import CoreData
 
+enum TaskPriority: String, CaseIterable {
+    case low
+    case normal
+    case high
+    case critical
+}
+
 //We need a way to initialize a Task object given its properties
 extension Task {
     @discardableResult convenience init(identifier: UUID = UUID(),
                      name: String,
                      notes: String?,
                      complete: Bool = false,
+                     priority: TaskPriority = .normal,
                      context: NSManagedObjectContext) {
         
         //Set up the NSManagedObject portion of the Task object
@@ -25,6 +33,6 @@ extension Task {
         self.name = name
         self.notes = notes
         self.complete = complete
-        
+        self.priority = priority.rawValue
     }
 }

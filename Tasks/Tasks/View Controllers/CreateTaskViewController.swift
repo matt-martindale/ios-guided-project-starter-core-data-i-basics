@@ -16,6 +16,7 @@ class CreateTaskViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
+    @IBOutlet weak var priorityControl: UISegmentedControl!
     
     // MARK: - View Lifecycle
     
@@ -33,9 +34,16 @@ class CreateTaskViewController: UIViewController {
             !name.isEmpty else { return }
         
         let notes = notesTextView.text
+        // Working with CaseIterable protocol on enum
+        let selectedPriority = priorityControl.selectedSegmentIndex
+        let priority = TaskPriority.allCases[selectedPriority]
         
         //@DiscardableResult lets us not need to put Task object into a property
-        Task(name: name, notes: notes, complete: complete, context: CoreDataStack.shared.mainContext)
+        Task(name: name,
+             notes: notes,
+             complete: complete,
+             priority: priority,
+             context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()
